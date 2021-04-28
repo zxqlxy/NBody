@@ -1,0 +1,5 @@
+.vscode
+*.pdf
+.ipynb_checkpoints
+__pycache__
+build/
