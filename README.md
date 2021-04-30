@@ -1,6 +1,6 @@
 # NBody
 
-NBody simulator using Barnes-Hut algorithm to achieve $NlogN$ speedup
+NBody simulator using Barnes-Hut algorithm to achieve $$NlogN$$ speedup
 over traditional $N^2$ algorithm.
 
 ## Run Code
