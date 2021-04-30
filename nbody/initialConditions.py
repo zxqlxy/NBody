@@ -1,14 +1,8 @@
-from __future__ import division
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import absolute_import
 from builtins import range
-# from future import standard_library
 import numpy as np
-# standard_library.install_aliases()
     
 
-def plummer(N, dim, a, m=1., G=4.483e-3, seed=None):
+def plummer(N, dim:int, a, m=1., G=4.483e-3, seed=None):
     """Compute the positions and velocities of particles in the Plummer sphere
 
     Args:

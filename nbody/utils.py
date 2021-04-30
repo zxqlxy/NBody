@@ -1,8 +1,4 @@
-from __future__ import division
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import absolute_import
-from nbody import quadtree
+from nbody import tree
 from builtins import range
 from builtins import open
 from builtins import int
@@ -18,34 +14,21 @@ import os
 import sys
 from datetime import datetime, timedelta
 
-__CYTHON_AVAIL = False
-try:
-    from nbody.force import accel_cython
-    __CYTHON_AVAIL = True
-except: 
-    print("Cython module not loaded")
-
 # standard_library.install_aliases()
 
 sys.setrecursionlimit(5000)
 
-def construct_tree(pos, mass):
-    sim_box = quadtree.cell(np.array([np.min(pos, axis=0),
-                                    np.max(pos, axis=0)]).T)
-    return quadtree.quadtree(pos, mass, sim_box)
+def construct_tree(pos, mass, dim):
+    sim_box = tree.cell(np.array([np.min(pos, axis=0),
+                                    np.max(pos, axis=0)]).T, dim)
+    return tree.tree(pos, mass, sim_box)
 
 
 def compute_accel(tree, part_ids, theta, G, eps=0.1, cython=True):
     if type(part_ids) == int:
-        if(cython and __CYTHON_AVAIL):
-            return accel_cython(tree, theta, part_ids, G, eps=eps)
-        else:
-            return tree.accel(theta, part_ids, G, eps=eps)
+        return tree.accel(theta, part_ids, G, eps=eps)
     else:
-        if(cython and __CYTHON_AVAIL):
-            return np.array([accel_cython(tree, theta, p_id, G, eps=eps) for p_id in part_ids])
-        else:
-            return np.array([tree.accel(theta, p_id, G, eps=eps) for p_id in part_ids])
+        return np.array([tree.accel(theta, p_id, G, eps=eps) for p_id in part_ids])
 
 
 class TimerCollection(object):
@@ -113,17 +96,17 @@ def compute_potential_energy(pos, mass=None, G=4.483e-3):
        U - Gravitational potential energy (float)
     """
     pos = np.array(pos).astype(float)
-    N_part = pos.shape[0]
+    N = pos.shape[0]
     if mass is None:
-        mass = np.ones(N_part)
+        mass = np.ones(N)
     elif type(mass) is float:
-        mass = np.ones(N_part) * mass
+        mass = np.ones(N) * mass
     else:
         mass = np.array(mass).astype(float)
-    assert mass.shape == (N_part,), ("input masses must match length of "
+    assert mass.shape == (N,), ("input masses must match length of "
                                      "input positions")
     U = 0.
-    for i in range(N_part):
+    for i in range(N):
         m_i = mass[i]
         m_j = mass[i+1:]
         dr = np.linalg.norm(pos[i] - pos[i+1:], axis=1)

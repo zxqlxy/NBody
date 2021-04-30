@@ -1,14 +1,14 @@
 import numpy as np
 
 class cell(object):
-    def __init__(self, box, dim=2):
+    def __init__(self, cell, dim):
         """Initialize cell object
 
         Args:
-            box (np.array): (dim,2) array
+            cell (np.array): (dim,2) array
             dim (int, optional): dimension. Defaults to 2.
         """
-        self.loc = np.array(box)
+        self.loc = np.array(cell)
         self.dim = dim
         
         self.xlow = self.loc[0,0]
@@ -60,6 +60,7 @@ class cell(object):
         Returns:
             [np.array]: the center of the cell
         """
+
         if self.dim == 3:
             return np.array([((self.xlow + self.xhigh))/2., (self.ylow + self.yhigh)/2., (self.zlow + self.zhigh)/2.])
         else:
@@ -144,11 +145,11 @@ class node(object):
         
         return 
     
-    def create_children(self, cell):
+    def create_children(self, ce):
         """subdivides the current cell into subdivisions and creates those children nodes. 
 
         Args:
-            cell (cell): the cell object for current node
+            ce (cell): the cell object for current node
         """
 
         xhalf = self.center[0]
@@ -160,54 +161,54 @@ class node(object):
         index = self.particles > self.cell.middle() 
 
         if self.dim == 2:
-            c1_cell = cell(np.array([[cell.xlow, xhalf], [cell.ylow, yhalf]]))
+            c1_cell = cell(np.array([[ce.xlow, xhalf], [ce.ylow, yhalf]]))
             mask = np.all(index == np.bool_([0,0]), axis=1)
             c1 = node(c1_cell, self.particles[mask], self.masses[mask])
             
-            c2_cell = cell(np.array([[xhalf, cell.xhigh], [cell.ylow, yhalf]]))
+            c2_cell = cell(np.array([[xhalf, ce.xhigh], [ce.ylow, yhalf]]), self.dim)
             mask = np.all(index == np.bool_([1,0]), axis=1)
             c2 = node(c2_cell, self.particles[mask], self.masses[mask])
             
-            c3_cell = cell(np.array([[cell.xlow, xhalf], [yhalf, cell.yhigh]]))
+            c3_cell = cell(np.array([[ce.xlow, xhalf], [yhalf, ce.yhigh]]), self.dim)
             mask = np.all(index == np.bool_([0,1]), axis=1)
             c3 = node(c3_cell, self.particles[mask], self.masses[mask])
             
-            c4_cell = cell(np.array([[xhalf, cell.xhigh], [yhalf, cell.yhigh]]))
+            c4_cell = cell(np.array([[xhalf, ce.xhigh], [yhalf, ce.yhigh]]), self.dim)
             mask = np.all(index == np.bool_([1,1]), axis=1)
             c4 = node(c4_cell, self.particles[mask], self.masses[mask])
                 
             self.children = [c1, c2, c3, c4] 
 
         if self.dim == 3:
-            c1_cell = cell(np.array([[cell.xlow, xhalf], [cell.ylow, yhalf], [cell.zlow, zhalf]]))
+            c1_cell = cell(np.array([[ce.xlow, xhalf], [ce.ylow, yhalf], [ce.zlow, zhalf]]), self.dim)
             mask = np.all(index == np.bool_([0,0,0]), axis=1)
             c1 = node(c1_cell, self.particles[mask], self.masses[mask])
             
-            c2_cell = cell(np.array([[xhalf, cell.xhigh], [cell.ylow, yhalf], [cell.zlow, zhalf]]))
+            c2_cell = cell(np.array([[xhalf, ce.xhigh], [ce.ylow, yhalf], [ce.zlow, zhalf]]), self.dim)
             mask = np.all(index == np.bool_([1,0,0]), axis=1)
             c2 = node(c2_cell, self.particles[mask], self.masses[mask])
             
-            c3_cell = cell(np.array([[cell.xlow, xhalf], [yhalf, cell.yhigh], [cell.zlow, zhalf]]))
+            c3_cell = cell(np.array([[ce.xlow, xhalf], [yhalf, ce.yhigh], [ce.zlow, zhalf]]), self.dim)
             mask = np.all(index == np.bool_([0,1,0]), axis=1)
             c3 = node(c3_cell, self.particles[mask], self.masses[mask])
             
-            c4_cell = cell(np.array([[xhalf, cell.xhigh], [yhalf, cell.yhigh], [cell.zlow, zhalf]]))
+            c4_cell = cell(np.array([[xhalf, ce.xhigh], [yhalf, ce.yhigh], [ce.zlow, zhalf]]), self.dim)
             mask = np.all(index == np.bool_([1,1,0]), axis=1)
             c4 = node(c4_cell, self.particles[mask], self.masses[mask])
             
-            c5_cell = cell(np.array([[cell.xlow, xhalf], [cell.ylow, yhalf], [zhalf, cell.zhigh]]))
+            c5_cell = cell(np.array([[ce.xlow, xhalf], [ce.ylow, yhalf], [zhalf, ce.zhigh]]), self.dim)
             mask = np.all(index == np.bool_([0,0,1]), axis=1)
             c5 = node(c5_cell, self.particles[mask], self.masses[mask])
             
-            c6_cell = cell(np.array([[xhalf, cell.xhigh], [cell.ylow, yhalf], [zhalf, cell.zhigh]]))
+            c6_cell = cell(np.array([[xhalf, ce.xhigh], [ce.ylow, yhalf], [zhalf, ce.zhigh]]), self.dim)
             mask = np.all(index == np.bool_([1,0,1]), axis=1)
             c6 = node(c6_cell, self.particles[mask], self.masses[mask])
             
-            c7_cell = cell(np.array([[cell.xlow, xhalf], [yhalf, cell.yhigh], [zhalf, cell.zhigh]]))
+            c7_cell = cell(np.array([[ce.xlow, xhalf], [yhalf, ce.yhigh], [zhalf, ce.zhigh]]), self.dim)
             mask = np.all(index == np.bool_([0,1,1]), axis=1)
             c7 = node(c7_cell, self.particles[mask], self.masses[mask])
             
-            c8_cell = cell(np.array([[xhalf, cell.xhigh], [yhalf, cell.yhigh], [zhalf, cell.zhigh]]))
+            c8_cell = cell(np.array([[xhalf, ce.xhigh], [yhalf, ce.yhigh], [zhalf, ce.zhigh]]), self.dim)
             mask = np.all(index == np.bool_([1,1,1]), axis=1)
             c8 = node(c8_cell, self.particles[mask], self.masses[mask])
                 
@@ -235,11 +236,16 @@ class tree(object):
         
         
     def create_tree(self):
+        """initialize tree with cell object
+
+        Returns:
+            [node]: the root cell object
+        """
         bl, bh = self.cell.bounds()
         if self.dim == 2:
-            bb = cell([[bl, bh], [bl, bh]]) #does this make sense to do? or should i use the particle min/maxes
+            bb = cell([[bl, bh], [bl, bh]], self.dim) #does this make sense to do? or should i use the particle min/maxes
         else: 
-            bb = cell([[bl, bh], [bl, bh], [bl, bh]])
+            bb = cell([[bl, bh], [bl, bh], [bl, bh]], self.dim)
         root = node(bb, self.particles, self.masses)
         
         for i in range(len(self.particles)): #parallelize tree construction!!!!
@@ -264,42 +270,47 @@ class tree(object):
         """Calculate acceleration for a given particle with some tolerance theta
 
         Args:
-            theta (float): [description]
-            particle_id ([type]): [description]
-            G ([type]): [description]
-            eps (float, optional): [description]. Defaults to 0.1.
+            theta (float): the scale that define how far the particles we should treat as a single mass
+            particle_id (int): the id of the particle, used to fetch particle's cell instance
+            G (float): gravitational constant
+            eps (float, optional): the force softening factor. Defaults to 0.1.
 
         Returns:
-            [type]: [description]
+            [np.array]: (dim, ) the force felt by the particle (id)
         """
-        """
-        Description: 
-            Calculate acceleration for a given particle_id in the simulation with some tolerance theta
-        Inputs:
-            theta: opening angle (float)
-            particle_id: index of particle in sim to calculate force for (int)
-            G: gravitational constant (float)
-        Output:
-            grad: force array (1x3)
-        """
+
         grad = self.traverse(self.root, self.particle_dict[particle_id], theta,
-                             particle_id, np.zeros(2), G, eps=eps)
+                            particle_id, G, eps=eps)
         return grad
     
-    def traverse(self, n0, n1, theta, idx, ret, G, eps=0.01):
+    def traverse(self, n0, n1, theta, idx, G, eps=0.01):
+        """Recursively compute the force of exterted by n0 on n1. It will
+        traverse the tree far enough so that we can treat the particles as 
+        a single mass
+
+        Args:
+            n0 (cell): the object exerting the force
+            n1 (cell): the obhject feel the force
+            theta (float): the scale that define how far the particles we should treat as a single mass
+            idx (int): id of n1
+            G (float): gravitational constant
+            eps (float, optional): the force softening factor. Defaults to 0.01.
+
+        Returns:
+            [np.array]: (dim, 1) the force felt by the particle (id)
         """
-        given two nodes n0 and n1, and some tol theta, traverse the tree till it's far enough that you can approximate the
-        node as a "particle" and add the gravitational acceleration of that particle to the ret array. n1 is the leaf node that 
-        holds the particle we are calculating the accel for.
-        """
-        if(n0 == n1):
-            return
+
+        # same particle
+        ret = np.zeros(self.dim)
+        if n0 == n1:
+            return 0
         dr = n0.com - n1.com
         r = np.sqrt(np.sum(dr**2))
-        size_of_node = n0.box.xhigh - n0.box.xlow
-        if(size_of_node/r < theta or n0.leaf):
+        size_of_node = n0.cell.xhigh - n0.cell.xlow
+        
+        if size_of_node/r < theta or n0.leaf:
             ret += G*n0.M*dr/(r**2 + eps**2)**1.5
         else:
             for c in n0.children:
-                self.traverse(c, n1, theta, idx, ret, G)
+                ret += self.traverse(c, n1, theta, idx, G)
         return ret
