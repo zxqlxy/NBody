@@ -1,6 +1,6 @@
 # NBody
 
-NBody simulator using Barnes-Hut algorithm to achieve `NlogN` speedup
+NBody simulator using the Barnes-Hut algorithm to achieve `NlogN` speedup
 over traditional `N^2` algorithm.
 
 ## Run Code
@@ -15,6 +15,15 @@ Use this command to run with MPI to parallelize the computation
 ```
 mpirun -n [num_cores] python script.py
 ```
+
+## Results
+
+One galaxy:
+
+<iframe src = analysis/one_2d.mp4></iframe>
+![2D](analysis/one_2d.mp4)
+![3D](analysis/one_3d.mp4)
+
 
 ### Further
 For a complete discussion of this NBody simulator please go to [gh-page](https://zxqlxy.github.io/NBody).
