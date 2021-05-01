@@ -10,15 +10,15 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))
 import sphinx_rtd_theme
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'NBody'
+project = 'nbody'
 copyright = '2021, Xinyun Liu'
 author = 'Xinyun Liu'
 
@@ -55,3 +55,28 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+latex_engine = 'xelatex'
+
+extensions = ['sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.coverage',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.ifconfig',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.githubpages',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.autosectionlabel',
+    'sphinxcontrib.bibtex',
+]
+
+bibtex_bibfiles = ['refs.bib']
+
+autodoc_default_options = {
+    'members': True,
+    'special-members': '__call__',
+}
+
+autosectionlabel_prefix_document = True

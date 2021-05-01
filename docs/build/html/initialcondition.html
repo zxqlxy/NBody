@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Initial Conditions &mdash; NBody 0.1.0 documentation</title>
+  <title>Initial Conditions &mdash; nbody 0.1.0 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The Barnes-Hut tree algorithm" href="barnes-hut.html" />
     <link rel="prev" title="What is Sphinx?" href="intro.html" /> 
 </head>
 
@@ -52,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> NBody
+            <a href="index.html" class="icon icon-home"> nbody
           
 
           
@@ -88,10 +90,12 @@
 <li class="toctree-l1"><a class="reference internal" href="intro.html">What is Sphinx?</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Initial Conditions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#plummer-model">Plummer Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sphinx-advantages">Sphinx Advantages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reference">Reference</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="barnes-hut.html">The Barnes-Hut tree algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code.html">Documentation for the Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Bibliography</a></li>
 </ul>
 
             
@@ -107,7 +111,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">NBody</a>
+          <a href="index.html">nbody</a>
         
       </nav>
 
@@ -160,58 +164,60 @@
            <div itemprop="articleBody">
             
   <div class="section" id="initial-conditions">
-<h1>Initial Conditions<a class="headerlink" href="#initial-conditions" title="Permalink to this headline">¶</a></h1>
-<p>From <a class="reference external" href="http://sphinx-doc.org">http://sphinx-doc.org</a>:</p>
-<ul class="simple">
-<li><p>Sphinx is a tool that makes it <em>easy to create intelligent and beautiful documentation</em>.</p></li>
-<li><p>It was <em>originally created for the new Python documentation</em>, and it
-has excellent facilities for the documentation of Python projects,
-but C/C++ is already supported as well.</p></li>
-</ul>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>… a great tool that actually makes programmers <strong>want</strong> to write documentation!</p>
-</div>
+<span id="initialcondition"></span><h1>Initial Conditions<a class="headerlink" href="#initial-conditions" title="Permalink to this headline">¶</a></h1>
+<p>In collisionless N-body simulations, when two particles approaches each other,
+the potential will diverge, so the <em>point mass potential</em></p>
+<div class="math notranslate nohighlight">
+\[\phi(r) = -\frac{GM}{r}\]</div>
+<p>is unphysical. Thus, a fix to this problem is to <em>gravitational softening</em>. We introduce
+<em>a</em> in the potential, and this is called Plummer model, <em>a</em> is called Plummer scale length. <span id="id1">[<a class="reference internal" href="references.html#id4">Plu11</a>]</span></p>
 <div class="section" id="plummer-model">
 <h2>Plummer Model<a class="headerlink" href="#plummer-model" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id1"><span class="problematic" id="id2">`Sphinx`_</span></a> is a documentation generator. This means it takes plain-text
-files in <a href="#id3"><span class="problematic" id="id4">`reStructuredText`_</span></a> format and transformes it into HTML, PDF,
-and any other output format.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reST</span> <span class="o">-&gt;</span> <span class="n">Sphinx</span> <span class="o">-&gt;</span> <span class="n">HTML</span> <span class="p">(</span><span class="n">PDF</span><span class="p">,</span> <span class="n">eBook</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>So as a user of Sphinx, your main job will be writing these text files
-with <a href="#id5"><span class="problematic" id="id6">`reStructuredText`_</span></a> which is similar to Wiki languages like
-Markdown.</p>
-</div>
-<div class="section" id="sphinx-advantages">
-<h2>Sphinx Advantages<a class="headerlink" href="#sphinx-advantages" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Documents are written as <strong>plain text</strong> files.</p></li>
-<li><p><strong>Output formats</strong> will be generated by Sphinx: HTML, PDF, eBook.</p></li>
-<li><p>Markup language used (reST) is <strong>similar to Wiki languages</strong> (Markdown, Textile, …).</p></li>
-<li><p><strong>Layouts</strong> can be replaced, many default layouts available.</p></li>
-<li><p>Writer concentrates on content, layout and output comes from Sphinx.</p></li>
-<li><p><strong>Autogenerating</strong> documentation from source code.</p></li>
-<li><p><strong>Syntax highlighting</strong> for many formats (Python, XML, …).</p></li>
-<li><p><strong>Cross-references</strong> to parts of the documenation (sections, code, glossary, …) and <strong>automatic indices</strong>.</p></li>
-<li><p><strong>Version control</strong> (GitHub) can be used for collaborative work and keeping track of different document versions.</p></li>
-<li><p>The documentation is <strong>part of the source code</strong> repository.</p></li>
-</ul>
+<p>Plummer potential is</p>
+<div class="math notranslate nohighlight">
+\[\phi(r) = -\frac{GM}{\sqrt{r^2 + a^2}}\]</div>
+<p>In order to generate the initial conditions, we need to compute <em>Spatial Distribution</em> and
+<em>Velocity Distribution</em> of the Plummer model.</p>
+<p>First compute the <em>Spatial Distribution</em>, suppose <em>k</em> is the portion of mass, then we have</p>
+<div class="math notranslate nohighlight">
+\[M_0\frac{r^3}{(r^2+a^2)^\frac{3}{2}} = kM_0\]</div>
+<p>We can solve to get</p>
+<div class="math notranslate nohighlight">
+\[r = \left(\frac{1}{k^\frac{2}{3}} - 1\right)^{-\frac{1}{2}}a\]</div>
+<p>In 2-D problem, we have similar calculation</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_0\frac{r^2}{r^2+a^2} = kM_0 \\
+r = \left(\frac{k}{1-k}\right)^\frac{1}{2}a\end{split}\]</div>
+<p><a class="reference internal" href="code.html#nbody.initialConditions.PlummerDist" title="nbody.initialConditions.PlummerDist"><code class="xref py py-meth docutils literal notranslate"><span class="pre">nbody.initialConditions.PlummerDist()</span></code></a></p>
+<p>Then, we need to compute <em>Velocity Distribution</em>. We first compute escape velocity by setting
+kinetic energy to potential energy</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{1}{2}mv^2 = \frac{GMm}{\sqrt{r^2 + a^2}} \\\end{split}\]</div>
+<p>and we can get escape velocity</p>
+<div class="math notranslate nohighlight">
+\[v_e = \sqrt{\frac{2GM}{\sqrt{r^2 + a^2}}}\]</div>
+<p>Then, by the energy distribution function, we can compute probablity function  <span class="math notranslate nohighlight">\(g(v)\)</span></p>
+<div class="math notranslate nohighlight">
+\[g(v)dv \propto  (-E(r,v))^{\frac{7}{2}}v^2dv\]</div>
+<p>Then, we will have a distribution fo velocity. After set <span class="math notranslate nohighlight">\(q = \frac{v}{v_e}\)</span>, we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}E(q) \propto q^2 - 1    \\
+g(q) = (1 - q^2)^{\frac{7}{2}}q^2\end{split}\]</div>
+<p>and we know that <span class="math notranslate nohighlight">\(0\leq q \leq 1\)</span>.</p>
+<p>In order to sample correct values, we will use rejection techniqu first came up by John von Neumann.
+It basically will shoot to a value where the probablity is smaller than the problility corresponding
+to specific <span class="math notranslate nohighlight">\(q\)</span>.</p>
+<p>We can compute the maximum value of <span class="math notranslate nohighlight">\(g(q)\)</span> is 0.092. So it’s safe to set the maximum probablity
+to 0.1 as in <a class="reference internal" href="code.html#nbody.initialConditions.rejV_Plummer" title="nbody.initialConditions.rejV_Plummer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">nbody.initialConditions.rejV_Plummer()</span></code></a>. If it’s 2-D scenario, simply set <span class="math notranslate nohighlight">\(\frac{7}{2}\)</span>
+to <span class="math notranslate nohighlight">\(\frac{5}{2}\)</span> and we can compute <span class="math notranslate nohighlight">\(g(q) &lt; 0.0353\)</span>.</p>
 </div>
 <div class="section" id="reference">
 <h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="http://cnn.com/">http://cnn.com/</a></p></li>
-<li><p><a class="reference external" href="http://bokeh.pydata.org/en/latest/">http://bokeh.pydata.org/en/latest/</a></p></li>
-<li><p><a class="reference external" href="https://docs.djangoproject.com/en/1.9/internals/contributing/writing-documentation/">https://docs.djangoproject.com/en/1.9/internals/contributing/writing-documentation/</a></p></li>
-<li><p><a class="reference external" href="http://docs.geotools.org/">http://docs.geotools.org/</a></p></li>
-<li><p><a class="reference external" href="http://docs.geoserver.org/latest/en/user/">http://docs.geoserver.org/latest/en/user/</a></p></li>
-<li><p><a class="reference external" href="http://ryan-roemer.github.io/sphinx-bootstrap-theme/">http://ryan-roemer.github.io/sphinx-bootstrap-theme/</a></p></li>
-<li><p><a class="reference external" href="http://cppformat.github.io/latest/">http://cppformat.github.io/latest/</a></p></li>
-<li><p><a class="reference external" href="http://doc.mapbender3.org/index.html">http://doc.mapbender3.org/index.html</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Plummer_model">https://en.wikipedia.org/wiki/Plummer_model</a></p></li>
+<li><p><a class="reference external" href="http://www.artcompsci.org/kali/vol/plummer/ch04.html">http://www.artcompsci.org/kali/vol/plummer/ch04.html</a></p></li>
 </ul>
-</div>
+<span class="target" id="id2"></span></div>
 </div>
 
 
@@ -220,6 +226,7 @@ Markdown.</p>
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="barnes-hut.html" class="btn btn-neutral float-right" title="The Barnes-Hut tree algorithm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="intro.html" class="btn btn-neutral float-left" title="What is Sphinx?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

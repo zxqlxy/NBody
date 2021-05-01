@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>The Barnes-Hut tree algorithm &mdash; nbody 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Documentation for the Code" href="code.html" />
+    <link rel="prev" title="Initial Conditions" href="initialcondition.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nbody
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">What is Sphinx?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialcondition.html">Initial Conditions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Barnes-Hut tree algorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analysis">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code.html">Documentation for the Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nbody</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>The Barnes-Hut tree algorithm</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/barnes-hut.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-barnes-hut-tree-algorithm">
+<span id="barnes-hut"></span><h1>The Barnes-Hut tree algorithm<a class="headerlink" href="#the-barnes-hut-tree-algorithm" title="Permalink to this headline">¶</a></h1>
+<p>As we know, a naive algorithm that calculate the forces in a N-body system will
+take <span class="math notranslate nohighlight">\(O(N^2)\)</span> and this can scale too fast when the number of objects <span class="math notranslate nohighlight">\(N\)</span>
+becomes big. Thus, a better solution is proposed <span id="id1">[<a class="reference internal" href="references.html#id2">BH86</a>]</span>
+where we only need to use <span class="math notranslate nohighlight">\(O(Nlog(N))\)</span> to compute the force for the N-body system.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>For <span class="math notranslate nohighlight">\(N\)</span> particles we have, we can use a tree structure to iteratively populate these <span class="math notranslate nohighlight">\(N\)</span>
+into the tree so that each inner nodes (which is not leaf) has no particle and each leaf no more than
+one particle. Of course, some of the leaves don’t have particle.</p>
+<p>In 2D scenario, once there are more than one particle in this “cell”, we have to separte the
+this “cell” into 4 leaves and in 3D scenario, we have to separte the “cell” into 8 leaves.</p>
+<p>In order to accelerate the computation, it is essential to know the center of mass of different treenode
+(can contain multiple particles) and each treenode also has a “cell” which is just a subdivision of
+its parent “cell”.</p>
+<p>This subdiving process won’t go forever, it will stop until we the “cell“‘s side length
+is within our accepted error range. More specifically, if we let <span class="math notranslate nohighlight">\(d\)</span> to be the distance between
+this particle and the center of mass of this treenode, <span class="math notranslate nohighlight">\(l\)</span> to be the length of the side of the “cell”,
+we can define “opening angle” <span class="math notranslate nohighlight">\(\theta = \frac{l}{d}\)</span>. If <span class="math notranslate nohighlight">\(\theta\)</span> is smaller than some value,
+we can simply treat them as a single mass to compute the force.</p>
+</div>
+<div class="section" id="analysis">
+<h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h2>
+<p>The process of computing each leaf for each particle will generally take <span class="math notranslate nohighlight">\(O(log(N))\)</span> because traverse
+down a tree is essentailly iterate over the tree’s depth and it’s in <span class="math notranslate nohighlight">\(O(log(N))\)</span> if <span class="math notranslate nohighlight">\(N\)</span> is the
+number of nodes in the tree. We have to do this for those <span class="math notranslate nohighlight">\(N\)</span> particles and this will give <span class="math notranslate nohighlight">\(O(Nlog(N))\)</span>.
+The actual force evaluation will go for the same step as further chunks will be evaluated together and nearer
+chunks will be smaller (as it is in scale with the “cell” side length). So each force evaluation for particle
+will also be <span class="math notranslate nohighlight">\(O(log(N))\)</span>.</p>
+<p>Unfortuately, this tree construction process need to be done for every iteration so it is the one thing we
+cannot get away with.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>… If two particles have exact same location, the tree cannot be constructed because of a
+<em>maximum recursion error</em></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="code.html" class="btn btn-neutral float-right" title="Documentation for the Code" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="initialcondition.html" class="btn btn-neutral float-left" title="Initial Conditions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Xinyun Liu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,692 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Documentation for the Code &mdash; nbody 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bibliography" href="references.html" />
+    <link rel="prev" title="The Barnes-Hut tree algorithm" href="barnes-hut.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nbody
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">What is Sphinx?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialcondition.html">Initial Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="barnes-hut.html">The Barnes-Hut tree algorithm</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation for the Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-nbody.initialConditions">initialConditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tree">tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-nbody.integrator">integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-nbody.utils">utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nbody</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Documentation for the Code</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/code.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbody">
+<span id="documentation-for-the-code"></span><h1>Documentation for the Code<a class="headerlink" href="#module-nbody" title="Permalink to this headline">¶</a></h1>
+<p>A N-Body Simulation Code.</p>
+<div class="section" id="module-nbody.initialConditions">
+<span id="initialconditions"></span><h2>initialConditions<a class="headerlink" href="#module-nbody.initialConditions" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="nbody.initialConditions.PlummerDist">
+<code class="sig-prename descclassname"><span class="pre">nbody.initialConditions.</span></code><code class="sig-name descname"><span class="pre">PlummerDist</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">N</span></em>, <em class="sig-param"><span class="pre">dim</span></em>, <em class="sig-param"><span class="pre">a</span></em>, <em class="sig-param"><span class="pre">rand=&lt;module</span> <span class="pre">'numpy.random'</span> <span class="pre">from</span> <span class="pre">'/Users/lxy/Library/Python/3.7/lib/python/site-packages/numpy/random/__init__.py'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/initialConditions.html#PlummerDist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.initialConditions.PlummerDist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes particles with Plummer density profile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>N</strong> (<em>int</em>) – number of particles</p></li>
+<li><p><strong>dim</strong> (<em>int</em>) – dimension</p></li>
+<li><p><strong>a</strong> (<em>int</em>) – Plummer radius</p></li>
+<li><p><strong>rand</strong> (<em>func</em><em>, </em><em>optional</em>) – random generate function.
+Defaults to np.random.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(N x dim) array of positions</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[np.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.initialConditions.escapeV_Plummer">
+<code class="sig-prename descclassname"><span class="pre">nbody.initialConditions.</span></code><code class="sig-name descname"><span class="pre">escapeV_Plummer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/initialConditions.html#escapeV_Plummer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.initialConditions.escapeV_Plummer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Compute the escape velocity at a radius r from the center of the</dt><dd><p>Plummer sphere</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>r</strong> (<em>float</em>) – radius away from the center of the Plummer sphere</p></li>
+<li><p><strong>M</strong> (<em>float</em>) – total mass of the Plummer sphere</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – plummer radius</p></li>
+<li><p><strong>G</strong> (<em>float</em>) – gravitational constant</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>escape velocity of a particle at radius r inside a Plummer sphere</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.initialConditions.plummer">
+<code class="sig-prename descclassname"><span class="pre">nbody.initialConditions.</span></code><code class="sig-name descname"><span class="pre">plummer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.004483</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/initialConditions.html#plummer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.initialConditions.plummer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the positions and velocities of particles in the Plummer sphere</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>N</strong> (<em>int</em>) – number of particles</p></li>
+<li><p><strong>dim</strong> (<em>int</em>) – dimension</p></li>
+<li><p><strong>a</strong> (<em>int</em>) – Plummer radius</p></li>
+<li><p><strong>m</strong> (<em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – mass of particles can be a single value or an array
+of values. Defaults to 1..</p></li>
+<li><p><strong>G</strong> (<em>int</em><em>, </em><em>optional</em>) – Gravitational constant. Defaults to 4.483e-3.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – random generator seed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[(N x dim), (N x dim)] positions and velocities of particles in the Plummer sphere</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[pos, vel]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.initialConditions.rand_unit_vector">
+<code class="sig-prename descclassname"><span class="pre">nbody.initialConditions.</span></code><code class="sig-name descname"><span class="pre">rand_unit_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">d</span></em>, <em class="sig-param"><span class="pre">rand=&lt;module</span> <span class="pre">'numpy.random'</span> <span class="pre">from</span> <span class="pre">'/Users/lxy/Library/Python/3.7/lib/python/site-packages/numpy/random/__init__.py'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/initialConditions.html#rand_unit_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.initialConditions.rand_unit_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate random unit vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d</strong> (<em>int</em>) – dimension of the vector</p></li>
+<li><p><strong>rand</strong> (<em>func</em><em>, </em><em>optional</em>) – random generate function.
+Defaults to np.random.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>d-dimensional random unit vector (norm = 1)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[np.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.initialConditions.rejV_Plummer">
+<code class="sig-prename descclassname"><span class="pre">nbody.initialConditions.</span></code><code class="sig-name descname"><span class="pre">rejV_Plummer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">r</span></em>, <em class="sig-param"><span class="pre">dim</span></em>, <em class="sig-param"><span class="pre">M</span></em>, <em class="sig-param"><span class="pre">a</span></em>, <em class="sig-param"><span class="pre">G</span></em>, <em class="sig-param"><span class="pre">rand=&lt;module</span> <span class="pre">'numpy.random'</span> <span class="pre">from</span> <span class="pre">'/Users/lxy/Library/Python/3.7/lib/python/site-packages/numpy/random/__init__.py'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/initialConditions.html#rejV_Plummer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.initialConditions.rejV_Plummer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses the rejection technique to find the velocity drawn randomly
+from the velocity distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>r</strong> (<em>float</em>) – radius from the center of the Plummer sphere</p></li>
+<li><p><strong>dim</strong> (<em>int</em>) – dimension</p></li>
+<li><p><strong>M</strong> (<em>float</em>) – total mass of the Plummer sphere</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – Plummer radius</p></li>
+<li><p><strong>G</strong> (<em>float</em>) – gravitational constant</p></li>
+<li><p><strong>rand</strong> (<em>func</em><em>, </em><em>optional</em>) – RandomState generator. Defaults to np.random.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>velocity of a particle</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.initialConditions.velDist_Plummer">
+<code class="sig-prename descclassname"><span class="pre">nbody.initialConditions.</span></code><code class="sig-name descname"><span class="pre">velDist_Plummer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">N</span></em>, <em class="sig-param"><span class="pre">dim</span></em>, <em class="sig-param"><span class="pre">r</span></em>, <em class="sig-param"><span class="pre">M</span></em>, <em class="sig-param"><span class="pre">a</span></em>, <em class="sig-param"><span class="pre">G</span></em>, <em class="sig-param"><span class="pre">rand=&lt;module</span> <span class="pre">'numpy.random'</span> <span class="pre">from</span> <span class="pre">'/Users/lxy/Library/Python/3.7/lib/python/site-packages/numpy/random/__init__.py'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/initialConditions.html#velDist_Plummer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.initialConditions.velDist_Plummer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute velocities from the velocity distribution of particles
+of the Plummer model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>N</strong> (<em>int</em>) – total number of particles to be initialized</p></li>
+<li><p><strong>dim</strong> (<em>int</em>) – dimension</p></li>
+<li><p><strong>r</strong> (<em>float</em>) – radius from the center of the Plummer sphere</p></li>
+<li><p><strong>M</strong> (<em>float</em>) – total mass of the Plummer sphere</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – Plummer radius</p></li>
+<li><p><strong>G</strong> (<em>float</em>) – gravitational constant</p></li>
+<li><p><strong>rand</strong> (<em>func</em><em>, </em><em>optional</em>) – RandomState generator. Defaults to np.random.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(N, dim) array of velocities of particles</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[np.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="tree">
+<h2>tree<a class="headerlink" href="#tree" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="nbody.tree.cell">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">nbody.tree.</span></code><code class="sig-name descname"><span class="pre">cell</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#cell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.cell" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="nbody.tree.cell.__call__">
+<code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#cell.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.cell.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the location of the cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the location of the cell</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>[np.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nbody.tree.cell.bounds">
+<code class="sig-name descname"><span class="pre">bounds</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#cell.bounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.cell.bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns min/max values of the cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the min/max values of the cell</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>[np.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nbody.tree.cell.inside">
+<code class="sig-name descname"><span class="pre">inside</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#cell.inside"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.cell.inside" title="Permalink to this definition">¶</a></dt>
+<dd><p>find whether particle is inside the cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>np.array</em>) – location of a particle</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether particle is inside the cell</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nbody.tree.cell.middle">
+<code class="sig-name descname"><span class="pre">middle</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#cell.middle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.cell.middle" title="Permalink to this definition">¶</a></dt>
+<dd><p>find the center of the cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the center of the cell</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>[np.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="nbody.tree.node">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">nbody.tree.</span></code><code class="sig-name descname"><span class="pre">node</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">masses</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.node" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="nbody.tree.node.create_children">
+<code class="sig-name descname"><span class="pre">create_children</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ce</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#node.create_children"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.node.create_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>subdivides the current cell into subdivisions and creates those children nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ce</strong> (<a class="reference internal" href="#nbody.tree.cell" title="nbody.tree.cell"><em>cell</em></a>) – the cell object for current node</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nbody.tree.node.insert">
+<code class="sig-name descname"><span class="pre">insert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#node.insert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.node.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursivly find the leaf with 0 particles and insert the particle
+to that node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particle</strong> (<em>np.array</em>) – (dim, ) position of a particle to be added</p></li>
+<li><p><strong>idx</strong> (<em>int</em>) – idx to keep track of different leaves</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nbody.tree.node.update_com">
+<code class="sig-name descname"><span class="pre">update_com</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#node.update_com"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.node.update_com" title="Permalink to this definition">¶</a></dt>
+<dd><p>updates center of mass.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="nbody.tree.tree">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">nbody.tree.</span></code><code class="sig-name descname"><span class="pre">tree</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">masses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.tree" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="nbody.tree.tree.accel">
+<code class="sig-name descname"><span class="pre">accel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#tree.accel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.tree.accel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate acceleration for a given particle with some tolerance theta</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<em>float</em>) – the scale that define how far the particles we should treat as a single mass</p></li>
+<li><p><strong>particle_id</strong> (<em>int</em>) – the id of the particle, used to fetch particle’s cell instance</p></li>
+<li><p><strong>G</strong> (<em>float</em>) – gravitational constant</p></li>
+<li><p><strong>eps</strong> (<em>float</em><em>, </em><em>optional</em>) – the force softening factor. Defaults to 0.1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(dim, ) the force felt by the particle (id)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[np.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nbody.tree.tree.create_tree">
+<code class="sig-name descname"><span class="pre">create_tree</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#tree.create_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.tree.create_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize tree with cell object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the root cell object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>[<a class="reference internal" href="#nbody.tree.node" title="nbody.tree.node">node</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nbody.tree.tree.get_all_leaves">
+<code class="sig-name descname"><span class="pre">get_all_leaves</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#tree.get_all_leaves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.tree.get_all_leaves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the leaves of this node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference internal" href="#nbody.tree.node" title="nbody.tree.node"><em>node</em></a>) – a node object whoes leaves are to be added</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nbody.tree.tree.traverse">
+<code class="sig-name descname"><span class="pre">traverse</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/tree.html#tree.traverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.tree.tree.traverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively compute the force of exterted by n0 on n1. It will
+traverse the tree far enough so that we can treat the particles as
+a single mass</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n0</strong> (<a class="reference internal" href="#nbody.tree.cell" title="nbody.tree.cell"><em>cell</em></a>) – the object exerting the force</p></li>
+<li><p><strong>n1</strong> (<a class="reference internal" href="#nbody.tree.cell" title="nbody.tree.cell"><em>cell</em></a>) – the obhject feel the force</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) – the scale that define how far the particles we should treat as a single mass</p></li>
+<li><p><strong>idx</strong> (<em>int</em>) – id of n1</p></li>
+<li><p><strong>G</strong> (<em>float</em>) – gravitational constant</p></li>
+<li><p><strong>eps</strong> (<em>float</em><em>, </em><em>optional</em>) – the force softening factor. Defaults to 0.01.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(dim, 1) the force felt by the particle (id)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[np.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-nbody.integrator">
+<span id="integrator"></span><h2>integrator<a class="headerlink" href="#module-nbody.integrator" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="nbody.integrator.serial_timestep">
+<code class="sig-prename descclassname"><span class="pre">nbody.integrator.</span></code><code class="sig-name descname"><span class="pre">serial_timestep</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/integrator.html#serial_timestep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.integrator.serial_timestep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the updated positions (p) and velocities (v) given accelerations
+(a) and a timestep dt, using the leap-frog algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.array</em>) – positions (N x d)</p></li>
+<li><p><strong>v</strong> (<em>np.array</em><em>)</em>) – velocities (N x d)</p></li>
+<li><p><strong>a</strong> (<em>np.array</em>) – accelerations (N x d)</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – time step</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>new positions (N x d), new velocites (N x d)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[np.array, np.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-nbody.utils">
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-nbody.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="nbody.utils.RunResults">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">RunResults</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#RunResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.RunResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for loading and analyzing results from behalf runs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.utils.compute_energy">
+<code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">compute_energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.004483</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#compute_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.compute_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total energy of the system defined by
+input positions (pos), velocities (vel), and masses (defaults
+to 1.0 for all particles), using units defined by choice of G.</p>
+<p>Total energy is the sum of potential and kinetic energy
+(see: compute_potential_energy and compute_kinetic_energy)</p>
+<dl class="simple">
+<dt>Input:</dt><dd><p>pos - positions (N x d)
+vel - velocities (N x d)
+mass - masses (optonal. Default: np.ones(N))
+G - Newton’s Constant (optional. Default=1.)</p>
+</dd>
+<dt>Output:</dt><dd><p>E - total energy (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.utils.compute_kinetic_energy">
+<code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">compute_kinetic_energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#compute_kinetic_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.compute_kinetic_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the kinetic of the system defined by input
+velocities and mass (defaults to 1.0 for all particles).</p>
+<p>Kinetic energy is defined as:
+K = 1/2 sum_i (mass[i] * ||vel[i]||**2)</p>
+<dl class="simple">
+<dt>Input:</dt><dd><p>vel - velocities (N x 3)
+mass - masses (optonal. Default: np.ones(N))</p>
+</dd>
+<dt>Output:</dt><dd><p>K - kinetic energy (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.utils.compute_potential_energy">
+<code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">compute_potential_energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.004483</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#compute_potential_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.compute_potential_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gravitational potential energy of the system defined by input
+positions (pos) and masses (defaults to 1.0 for all particles),
+using units defined by choice of G.</p>
+<p>Potential energy is defined as:
+U = - sum_i ( sum_[j &gt; i] ( G * mass[i] * mass[j] / r_ij))
+r_ij = || pos[i] - pos[j] ||</p>
+<dl class="simple">
+<dt>Input:</dt><dd><p>pos - positions (N x d)
+mass - masses (optonal. Default: np.ones(N))
+G - Newton’s Constant (optional. Default=1.)</p>
+</dd>
+<dt>Output:</dt><dd><p>U - Gravitational potential energy (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.utils.parse_name">
+<code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">parse_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#parse_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.parse_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the run name into number of cores, nodes, gpus, particles,
+steps, and dt</p>
+<dl>
+<dt>Format:</dt><dd><p>AAA_B-C_D_E_F</p>
+<p>AAA - Run Type (gpu, mpi, etc)
+B - Number of cores
+C - Number of nodes
+D - Number of particles
+E - Number of time steps
+F - Time Precision (1 / dt_Myr)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.utils.save_results">
+<code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">save_results</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.004483</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#save_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.save_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the current state of the simulation to “out_file”.</p>
+<dl class="simple">
+<dt>Input:</dt><dd><p>out_file - filename to save results to
+pos - array of particle positions (N x d)
+vel - array of particle velocities (N x d)
+mass - array of particle masses (N)
+t_start - start time (in seconds) of the simulation
+iter_num - current time step of the simulation
+iter_total - total number of iterations the simulation will run for
+num_cores - number of cores used for computation
+timers - TimerCollection of custom timers to save</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="nbody.utils.split_size">
+<code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">split_size</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_parts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_chunks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#split_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.split_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of particles (out of N_parts) distributed to
+chunk i of N_chunks</p>
+<dl class="simple">
+<dt>Input:</dt><dd><p>N_parts - number of particles (int)
+N_chunks - number of chunks to distribute to (int)
+i - which chunk to compute number of particles (int, 0-indexed)</p>
+</dd>
+</dl>
+<p>Example: splitting 1000 particles across 10 chunks
+&gt;&gt;&gt; split_size(1000, 11, 0)
+91
+&gt;&gt;&gt; split_size(1000, 11, 10)
+90</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="references.html" class="btn btn-neutral float-right" title="Bibliography" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="barnes-hut.html" class="btn btn-neutral float-left" title="The Barnes-Hut tree algorithm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Xinyun Liu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

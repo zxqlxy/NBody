@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>nbody.initialConditions &mdash; nbody 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> nbody
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">What is Sphinx?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../initialcondition.html">Initial Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../barnes-hut.html">The Barnes-Hut tree algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code.html">Documentation for the Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">nbody</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>nbody.initialConditions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for nbody.initialConditions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    
+
+<div class="viewcode-block" id="plummer"><a class="viewcode-back" href="../../code.html#nbody.initialConditions.plummer">[docs]</a><span class="k">def</span> <span class="nf">plummer</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="mf">4.483e-3</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the positions and velocities of particles in the Plummer sphere</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        N (int): number of particles</span>
+<span class="sd">        dim (int): dimension</span>
+<span class="sd">        a (int): Plummer radius</span>
+<span class="sd">        m ([int], optional): mass of particles can be a single value or an array</span>
+<span class="sd">                of values. Defaults to 1..</span>
+<span class="sd">        G (int, optional): Gravitational constant. Defaults to 4.483e-3.</span>
+<span class="sd">        seed (int, optional): random generator seed.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [pos, vel]: [(N x dim), (N x dim)] positions and velocities of particles in the Plummer sphere</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">Npart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">PlummerDist</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rand</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">m</span>  <span class="c1"># if all particles have the same mass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">vel</span> <span class="o">=</span> <span class="n">velDist_Plummer</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rand</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">pos</span><span class="p">,</span> <span class="n">vel</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="rand_unit_vector"><a class="viewcode-back" href="../../code.html#nbody.initialConditions.rand_unit_vector">[docs]</a><span class="k">def</span> <span class="nf">rand_unit_vector</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Generate random unit vector.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        d (int): dimension of the vector</span>
+<span class="sd">        rand (func, optional): random generate function. </span>
+<span class="sd">            Defaults to np.random.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [np.array]: d-dimensional random unit vector (norm = 1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">costheta</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">costheta</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> 
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> 
+        <span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> 
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> 
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">vec</span></div>
+    
+
+<span class="c1"># Spatial Distribution for Plummer Model</span>
+<div class="viewcode-block" id="PlummerDist"><a class="viewcode-back" href="../../code.html#nbody.initialConditions.PlummerDist">[docs]</a><span class="k">def</span> <span class="nf">PlummerDist</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initializes particles with Plummer density profile.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        N (int): number of particles</span>
+<span class="sd">        dim (int): dimension</span>
+<span class="sd">        a (int): Plummer radius</span>
+<span class="sd">        rand (func, optional): random generate function. </span>
+<span class="sd">            Defaults to np.random.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        [np.array]:  (N x dim) array of positions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">))</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">dim</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="c1"># Let enclosed mass fraction f_mi be random number between 0 and 1</span>
+            <span class="n">f_mi</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)</span>
+            <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">f_mi</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">-</span><span class="mf">1.</span><span class="p">)</span>
+            <span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">rand_unit_vector</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rand</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="c1"># Let enclosed mass fraction f_mi be random number between 0 and 1</span>
+            <span class="n">f_mi</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)</span>
+            <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">f_mi</span><span class="o">/</span><span class="p">(</span><span class="n">f_mi</span><span class="o">-</span><span class="mf">1.</span><span class="p">))</span>
+            <span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">rand_unit_vector</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rand</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pos</span></div>
+
+
+<span class="c1"># Initial velocities for particles in the Plummer model</span>
+<div class="viewcode-block" id="escapeV_Plummer"><a class="viewcode-back" href="../../code.html#nbody.initialConditions.escapeV_Plummer">[docs]</a><span class="k">def</span> <span class="nf">escapeV_Plummer</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the escape velocity at a radius r from the center of the </span>
+<span class="sd">        Plummer sphere</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        r (float): radius away from the center of the Plummer sphere</span>
+<span class="sd">        M (float): total mass of the Plummer sphere</span>
+<span class="sd">        a (float): plummer radius</span>
+<span class="sd">        G (float): gravitational constant</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [float]: escape velocity of a particle at radius r inside a Plummer sphere</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">G</span><span class="o">*</span><span class="n">M</span><span class="o">/</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pref</span><span class="o">*</span><span class="p">(</span><span class="mf">1.</span><span class="o">+</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">r</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">a</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rejV_Plummer"><a class="viewcode-back" href="../../code.html#nbody.initialConditions.rejV_Plummer">[docs]</a><span class="k">def</span> <span class="nf">rejV_Plummer</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Uses the rejection technique to find the velocity drawn randomly</span>
+<span class="sd">    from the velocity distribution</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        r (float): radius from the center of the Plummer sphere</span>
+<span class="sd">        dim (int): dimension</span>
+<span class="sd">        M (float): total mass of the Plummer sphere</span>
+<span class="sd">        a (float): Plummer radius</span>
+<span class="sd">        G (float): gravitational constant</span>
+<span class="sd">        rand (func, optional): RandomState generator. Defaults to np.random.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [float]: velocity of a particle</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">gmax</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># slightly bigger than g_max = g(\sqrt(2/9)) = 0.092</span>
+    <span class="n">g0</span> <span class="o">=</span> <span class="n">gmax</span>
+    <span class="k">while</span> <span class="n">g0</span> <span class="o">&gt;</span> <span class="n">q</span><span class="o">*</span><span class="n">q</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">q</span><span class="o">*</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">dim</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">):</span>
+        <span class="c1"># 0 &lt;= v &lt;= v_esc or 0 &lt;= q &lt;= 1 where x = v/v_esc</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)</span>
+        <span class="c1"># 0 &lt;= g &lt;= g_max</span>
+        <span class="n">g0</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">gmax</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">q</span><span class="o">*</span><span class="n">escapeV_Plummer</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="velDist_Plummer"><a class="viewcode-back" href="../../code.html#nbody.initialConditions.velDist_Plummer">[docs]</a><span class="k">def</span> <span class="nf">velDist_Plummer</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute velocities from the velocity distribution of particles</span>
+<span class="sd">    of the Plummer model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        N (int): total number of particles to be initialized</span>
+<span class="sd">        dim (int): dimension</span>
+<span class="sd">        r (float): radius from the center of the Plummer sphere</span>
+<span class="sd">        M (float): total mass of the Plummer sphere</span>
+<span class="sd">        a (float): Plummer radius</span>
+<span class="sd">        G (float): gravitational constant</span>
+<span class="sd">        rand (func, optional): RandomState generator. Defaults to np.random.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [np.array]: (N, dim) array of velocities of particles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">dim</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">r_abs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">vel_mod</span> <span class="o">=</span> <span class="n">rejV_Plummer</span><span class="p">(</span><span class="n">r_abs</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rand</span><span class="p">)</span>
+        <span class="n">vel</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">rand_unit_vector</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rand</span><span class="p">)</span><span class="o">*</span><span class="n">vel_mod</span>
+    <span class="k">return</span> <span class="n">vel</span></div>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Xinyun Liu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
