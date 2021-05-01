@@ -33,9 +33,12 @@ Two galaxies (500 particles each for 1000 timestep):
 For a complete discussion of this NBody simulator please go to [gh-page](https://zxqlxy.github.io/NBody).
 
 ### TODO
-- [x] Combine both 2D and 3D
+- [x] Combine both 2D and 3D 
+- [x] 2D and 3D visualization
 - [x] Update the docstring
 - [x] Added MPI to parallelize the computation
 - [ ] Use cython and GPU for further speedup
-- [ ] Explore more initial conditions
+- [ ] Explore more initial conditions (Hernquist and Kuzmin Models)
 - [ ] Explore more algorithms in integrator
+- [ ] Add collision handling
+
