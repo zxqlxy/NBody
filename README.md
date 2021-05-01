@@ -20,9 +20,7 @@ mpirun -n [num_cores] python script.py
 
 One galaxy:
 
-[one_3d](https://github.com/zxqlxy/NBody/blob/master/analysis/one_3d.mp4)
-![2D](analysis/one_2d.mp4)
-![3D](analysis/one_3d.mp4)
+please refer to [one_3d](analysis/one_3d.mp4) for 3D and [one_2d](analysis/one_2d.mp4) for 2D.
 
 
 ### Further
