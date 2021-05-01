@@ -18,9 +18,15 @@ mpirun -n [num_cores] python script.py
 
 ## Results
 
-One galaxy:
+One galaxy (1000 particles for 1000 timestep):
 
-please refer to [one_3d](analysis/one_3d.mp4) for 3D and [one_2d](analysis/one_2d.mp4) for 2D.
+* [one_3d](analysis/one_3d.mp4) for 3D video.
+* [one_2d](analysis/one_2d.mp4) for 2D video.
+
+Two galaxies (500 particles each for 1000 timestep):
+
+* [two_3d](analysis/two_3d.mp4) for 3D video.
+* [two_2d](analysis/two_2d.mp4) for 2D video.
 
 
 ### Further
