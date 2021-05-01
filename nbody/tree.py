@@ -161,7 +161,7 @@ class node(object):
         index = self.particles > self.cell.middle() 
 
         if self.dim == 2:
-            c1_cell = cell(np.array([[ce.xlow, xhalf], [ce.ylow, yhalf]]))
+            c1_cell = cell(np.array([[ce.xlow, xhalf], [ce.ylow, yhalf]]), self.dim)
             mask = np.all(index == np.bool_([0,0]), axis=1)
             c1 = node(c1_cell, self.particles[mask], self.masses[mask])
             
@@ -279,9 +279,9 @@ class tree(object):
             [np.array]: (dim, ) the force felt by the particle (id)
         """
 
-        grad = self.traverse(self.root, self.particle_dict[particle_id], theta,
+        accel = self.traverse(self.root, self.particle_dict[particle_id], theta,
                             particle_id, G, eps=eps)
-        return grad
+        return accel
     
     def traverse(self, n0, n1, theta, idx, G, eps=0.01):
         """Recursively compute the force of exterted by n0 on n1. It will
@@ -307,7 +307,7 @@ class tree(object):
         dr = n0.com - n1.com
         r = np.sqrt(np.sum(dr**2))
         size_of_node = n0.cell.xhigh - n0.cell.xlow
-        
+
         if size_of_node/r < theta or n0.leaf:
             ret += G*n0.M*dr/(r**2 + eps**2)**1.5
         else:

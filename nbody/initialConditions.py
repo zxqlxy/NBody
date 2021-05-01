@@ -1,6 +1,5 @@
-from builtins import range
 import numpy as np
-    
+
 
 def plummer(N, dim:int, a, m=1., G=4.483e-3, seed=None):
     """Compute the positions and velocities of particles in the Plummer sphere
@@ -32,7 +31,7 @@ def plummer(N, dim:int, a, m=1., G=4.483e-3, seed=None):
     return [pos, vel]
 
 
-def rand_unit_vector(d, rand=np.random)->None:
+def rand_unit_vector(d, rand=np.random):
     """ Generate random unit vector.
 
     Args:
@@ -153,6 +152,7 @@ def velDist_Plummer(N, dim, r, M, a, G, rand=np.random):
     Returns:
         [np.array]: (N, dim) array of velocities of particles
     """
+    N = int(N)
     vel = np.zeros((N, dim))
     for i in range(N):
         r_abs = np.linalg.norm(r[i])

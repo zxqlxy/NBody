@@ -586,23 +586,6 @@ G - Newton’s Constant (optional. Default=1.)</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="nbody.utils.parse_name">
-<code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">parse_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#parse_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.parse_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parses the run name into number of cores, nodes, gpus, particles,
-steps, and dt</p>
-<dl>
-<dt>Format:</dt><dd><p>AAA_B-C_D_E_F</p>
-<p>AAA - Run Type (gpu, mpi, etc)
-B - Number of cores
-C - Number of nodes
-D - Number of particles
-E - Number of time steps
-F - Time Precision (1 / dt_Myr)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="nbody.utils.save_results">
 <code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">save_results</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.004483</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#save_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.save_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the current state of the simulation to “out_file”.</p>
@@ -615,18 +598,18 @@ t_start - start time (in seconds) of the simulation
 iter_num - current time step of the simulation
 iter_total - total number of iterations the simulation will run for
 num_cores - number of cores used for computation
-timers - TimerCollection of custom timers to save</p>
+timers - Timer of custom timers to save</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="nbody.utils.split_size">
-<code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">split_size</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_parts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_chunks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#split_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.split_size" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">nbody.utils.</span></code><code class="sig-name descname"><span class="pre">split_size</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_chunks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbody/utils.html#split_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nbody.utils.split_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns number of particles (out of N_parts) distributed to
 chunk i of N_chunks</p>
 <dl class="simple">
-<dt>Input:</dt><dd><p>N_parts - number of particles (int)
+<dt>Input:</dt><dd><p>N - number of particles (int)
 N_chunks - number of chunks to distribute to (int)
 i - which chunk to compute number of particles (int, 0-indexed)</p>
 </dd>

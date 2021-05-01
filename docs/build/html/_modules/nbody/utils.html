@@ -156,22 +156,14 @@
             
   <h1>Source code for nbody.utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">nbody</span> <span class="k">import</span> <span class="n">tree</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">open</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">int</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">str</span>
-<span class="c1"># from future import standard_library</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="k">import</span> <span class="n">glob</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="c1"># import seaborn as sns</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 
-<span class="c1"># standard_library.install_aliases()</span>
 
 <span class="n">sys</span><span class="o">.</span><span class="n">setrecursionlimit</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
 
@@ -188,7 +180,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">tree</span><span class="o">.</span><span class="n">accel</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">p_id</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">)</span> <span class="k">for</span> <span class="n">p_id</span> <span class="ow">in</span> <span class="n">part_ids</span><span class="p">])</span>
 
 
-<span class="k">class</span> <span class="nc">TimerCollection</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Timer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_times</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">completed_times</span> <span class="o">=</span> <span class="p">{}</span>
@@ -211,6 +203,7 @@
 
     <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
 
 <div class="viewcode-block" id="compute_energy"><a class="viewcode-back" href="../../code.html#nbody.utils.compute_energy">[docs]</a><span class="k">def</span> <span class="nf">compute_energy</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="n">mass</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="mf">4.483e-3</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -260,8 +253,8 @@
         <span class="n">mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">mass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">mass</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">N</span><span class="p">,),</span> <span class="p">(</span><span class="s2">&quot;input masses must match length of &quot;</span>
-                                     <span class="s2">&quot;input positions&quot;</span><span class="p">)</span>
+    <span class="c1"># input masses must match length of input positions</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">mass</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">N</span><span class="p">,))</span>
     <span class="n">U</span> <span class="o">=</span> <span class="mf">0.</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
         <span class="n">m_i</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -287,16 +280,17 @@
 <span class="sd">       K - kinetic energy (float)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-    <span class="n">N_part</span> <span class="o">=</span> <span class="n">vel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">vel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">mass</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N_part</span><span class="p">)</span>
+        <span class="n">mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="n">mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N_part</span><span class="p">)</span> <span class="o">*</span> <span class="n">mass</span>
+        <span class="n">mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">mass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-    <span class="n">N_part</span> <span class="o">=</span> <span class="n">vel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">assert</span> <span class="n">mass</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">N_part</span><span class="p">,),</span> <span class="p">(</span><span class="s2">&quot;input masses must match length of &quot;</span>
-                                     <span class="s2">&quot;input velocities&quot;</span><span class="p">)</span>
+
+    <span class="c1"># input masses must match length of input positions</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">mass</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vel</span><span class="o">.</span><span class="n">T</span><span class="o">**</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">mass</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span></div>
 
 
@@ -314,7 +308,7 @@
 <span class="sd">       iter_num - current time step of the simulation</span>
 <span class="sd">       iter_total - total number of iterations the simulation will run for</span>
 <span class="sd">       num_cores - number of cores used for computation</span>
-<span class="sd">       timers - TimerCollection of custom timers to save</span>
+<span class="sd">       timers - Timer of custom timers to save</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">header</span> <span class="o">+=</span> <span class="s1">&#39;Iterations: </span><span class="si">{:d}</span><span class="s1"> of </span><span class="si">{:d}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iter_num</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">iter_total</span><span class="p">)</span>
@@ -356,13 +350,13 @@
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;# Random Seed: </span><span class="si">{:d}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
 
         
-<div class="viewcode-block" id="split_size"><a class="viewcode-back" href="../../code.html#nbody.utils.split_size">[docs]</a><span class="k">def</span> <span class="nf">split_size</span><span class="p">(</span><span class="n">N_parts</span><span class="p">,</span> <span class="n">N_chunks</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<div class="viewcode-block" id="split_size"><a class="viewcode-back" href="../../code.html#nbody.utils.split_size">[docs]</a><span class="k">def</span> <span class="nf">split_size</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N_chunks</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns number of particles (out of N_parts) distributed to</span>
 <span class="sd">    chunk i of N_chunks</span>
 
 <span class="sd">    Input:</span>
-<span class="sd">       N_parts - number of particles (int)</span>
+<span class="sd">       N - number of particles (int)</span>
 <span class="sd">       N_chunks - number of chunks to distribute to (int)</span>
 <span class="sd">       i - which chunk to compute number of particles (int, 0-indexed)</span>
 
@@ -372,41 +366,7 @@
 <span class="sd">    &gt;&gt;&gt; split_size(1000, 11, 10)</span>
 <span class="sd">    90</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">N_parts</span> <span class="o">//</span> <span class="n">N_chunks</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">((</span><span class="n">N_parts</span> <span class="o">%</span> <span class="n">N_chunks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="parse_name"><a class="viewcode-back" href="../../code.html#nbody.utils.parse_name">[docs]</a><span class="k">def</span> <span class="nf">parse_name</span><span class="p">(</span><span class="n">run_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parses the run name into number of cores, nodes, gpus, particles,</span>
-<span class="sd">    steps, and dt</span>
-
-<span class="sd">    Format:</span>
-<span class="sd">       AAA_B-C_D_E_F</span>
-<span class="sd">    </span>
-<span class="sd">       AAA - Run Type (gpu, mpi, etc)</span>
-<span class="sd">       B - Number of cores</span>
-<span class="sd">       C - Number of nodes</span>
-<span class="sd">       D - Number of particles</span>
-<span class="sd">       E - Number of time steps</span>
-<span class="sd">       F - Time Precision (1 / dt_Myr)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">run_type</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">time</span> <span class="o">=</span> <span class="n">run_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cores</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">cores</span><span class="p">,</span> <span class="n">nodes</span> <span class="o">=</span> <span class="n">cores</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
-    <span class="n">dt</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">time</span><span class="p">)))</span>  <span class="c1"># round to 3 sig figs</span>
-    <span class="n">cores</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cores</span><span class="p">)</span>
-    <span class="n">nodes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s1">&#39;gpu&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">run_name</span><span class="p">:</span>
-        <span class="n">ngpu</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">elif</span> <span class="n">cores</span> <span class="o">&gt;</span> <span class="n">nodes</span><span class="p">:</span>
-        <span class="n">ngpu</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">nodes</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ngpu</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">nodes</span>
-    <span class="n">parts</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
-    <span class="n">steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">cores</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">ngpu</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">dt</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">N</span> <span class="o">//</span> <span class="n">N_chunks</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">((</span><span class="n">N</span> <span class="o">%</span> <span class="n">N_chunks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RunResults"><a class="viewcode-back" href="../../code.html#nbody.utils.RunResults">[docs]</a><span class="k">class</span> <span class="nc">RunResults</span><span class="p">:</span>
@@ -416,8 +376,6 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">run_name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run_name</span> <span class="o">=</span> <span class="n">run_name</span>
         <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;../results/&#39;</span> <span class="o">+</span> <span class="n">run_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
-        <span class="c1"># Load basic properties from run_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Ncores</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nnodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ngpu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nparts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nsteps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">parse_name</span><span class="p">(</span><span class="n">run_name</span><span class="p">)</span>
         <span class="c1"># Load data from overivew</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;overview.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
@@ -425,13 +383,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">Mass</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">softening</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rand_seed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
         <span class="c1"># check properties are correct</span>
-        <span class="k">assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ncores</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="k">assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nparts</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
-        <span class="k">assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nsteps</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span>
-        <span class="k">assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">==</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">6</span><span class="p">]))</span>
         
         <span class="n">steps</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># figure out what time steps were saved</span>
@@ -483,47 +438,6 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_elapsed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
                 <span class="n">label</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">run_name</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ax</span>
-    
-    <span class="k">def</span> <span class="nf">plot_speedups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Overall&#39;</span><span class="p">,</span> <span class="s1">&#39;Tree&#39;</span><span class="p">,</span> <span class="s1">&#39;Force&#39;</span><span class="p">,</span> <span class="s1">&#39;Integ.&#39;</span><span class="p">,</span> <span class="s1">&#39;Comm.&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;Set2&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">markers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">]</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Code Portion&#39;</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Speed-Up (x)&#39;</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1"> Parts, </span><span class="si">{:d}</span><span class="s1"> Cores, </span><span class="si">{:d}</span><span class="s1"> Nodes, </span><span class="si">{:d}</span><span class="s1"> GPUs&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nparts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ncores</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nnodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ngpu</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Baseline: </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">title</span><span class="p">))</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-                <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span>
-        <span class="k">if</span> <span class="n">marker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">marker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-                <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39;o&#39;</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-                <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">Nparts</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nparts</span><span class="p">:</span>
-                    <span class="n">label</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1"> Parts, &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">Nparts</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">Ncores</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ncores</span><span class="p">:</span>
-                    <span class="n">label</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1"> Cores, &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">Ncores</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">Nnodes</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nnodes</span><span class="p">:</span>
-                    <span class="n">label</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1"> Nodes, &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">Nnodes</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">Ngpu</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ngpu</span><span class="p">:</span>
-                    <span class="n">label</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1"> GPUs&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">Ngpu</span><span class="p">)</span>
-            <span class="n">speedup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">med_times</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">/</span> <span class="n">other</span><span class="o">.</span><span class="n">med_times</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">speedup</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;x-small&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ax</span></div>
 </pre></div>
 

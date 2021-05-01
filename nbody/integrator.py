@@ -18,7 +18,7 @@ def serial_timestep(x, v, a, dt):
     Returns:
         [np.array, np.array]: new positions (N x d), new velocites (N x d)
     """
-
+    
     # for the correct leapfrog condition, assume self-started
     # i.e. p = p(i)
     #      v = v(i - 1/2)

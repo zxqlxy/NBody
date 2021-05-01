@@ -1,20 +1,12 @@
 from nbody import tree
-from builtins import range
-from builtins import open
-from builtins import int
-from builtins import str
-# from future import standard_library
-from builtins import object
 import numpy as np
 from time import time
 from glob import glob
 import matplotlib.pyplot as plt
-# import seaborn as sns
 import os
 import sys
 from datetime import datetime, timedelta
 
-# standard_library.install_aliases()
 
 sys.setrecursionlimit(5000)
 
@@ -24,36 +16,12 @@ def construct_tree(pos, mass, dim):
     return tree.tree(pos, mass, sim_box)
 
 
-def compute_accel(tree, part_ids, theta, G, eps=0.1, cython=True):
+def compute_accel(tree, part_ids, theta, G, eps=0.1):
     if type(part_ids) == int:
         return tree.accel(theta, part_ids, G, eps=eps)
     else:
         return np.array([tree.accel(theta, p_id, G, eps=eps) for p_id in part_ids])
 
-
-class TimerCollection(object):
-    def __init__(self):
-        self.start_times = {}
-        self.completed_times = {}
-
-    def start(self, watch_name):
-        self.start_times[watch_name] = time()
-        if watch_name not in self.completed_times:
-            self.completed_times[watch_name] = []
-
-    def stop(self, watch_name):
-        try:
-            dt = time() - self.start_times.pop(watch_name)
-            self.completed_times[watch_name].append(dt)
-        except KeyError:
-            raise KeyError('No such timer started')
-
-    def iter_medians(self):
-        for k in sorted(self.completed_times.keys()):
-            yield k, np.median(self.completed_times[k])
-
-    def clear(self):
-        self.__init__()
 
 def compute_energy(pos, vel, mass=None, G=4.483e-3):
     """
@@ -103,8 +71,8 @@ def compute_potential_energy(pos, mass=None, G=4.483e-3):
         mass = np.ones(N) * mass
     else:
         mass = np.array(mass).astype(float)
-    assert mass.shape == (N,), ("input masses must match length of "
-                                     "input positions")
+    # input masses must match length of input positions
+    assert(mass.shape == (N,))
     U = 0.
     for i in range(N):
         m_i = mass[i]
@@ -130,16 +98,17 @@ def compute_kinetic_energy(vel, mass=None):
        K - kinetic energy (float)
     """
     vel = np.array(vel).astype(float)
-    N_part = vel.shape[0]
+    N = vel.shape[0]
     if mass is None:
-        mass = np.ones(N_part)
+        mass = np.ones(N)
     elif type(mass) is float:
-        mass = np.ones(N_part) * mass
+        mass = np.ones(N) * mass
     else:
         mass = np.array(mass).astype(float)
-    N_part = vel.shape[0]
-    assert mass.shape == (N_part,), ("input masses must match length of "
-                                     "input velocities")
+
+    # input masses must match length of input positions
+    assert(mass.shape == (N,))
+
     return np.sum(vel.T**2. * mass) * 0.5
 
 
@@ -157,7 +126,7 @@ def save_results(out_file, pos, vel, mass, t_start, iter_num, iter_total,
        iter_num - current time step of the simulation
        iter_total - total number of iterations the simulation will run for
        num_cores - number of cores used for computation
-       timers - TimerCollection of custom timers to save
+       timers - Timer of custom timers to save
     """
     header = ""
     header += 'Iterations: {:d} of {:d}\n'.format(iter_num+1, iter_total)
@@ -199,13 +168,13 @@ def summarize_run(out_file, run_name, N_cores, N_parts, M_total, a, theta, dt,
         f.write('# Random Seed: {:d}\n'.format(seed))
 
         
-def split_size(N_parts, N_chunks, i):
+def split_size(N, N_chunks, i):
     """
     Returns number of particles (out of N_parts) distributed to
     chunk i of N_chunks
 
     Input:
-       N_parts - number of particles (int)
+       N - number of particles (int)
        N_chunks - number of chunks to distribute to (int)
        i - which chunk to compute number of particles (int, 0-indexed)
 
@@ -215,41 +184,32 @@ def split_size(N_parts, N_chunks, i):
     >>> split_size(1000, 11, 10)
     90
     """
-    return (N_parts // N_chunks) + int((N_parts % N_chunks) > i)
+    return (N // N_chunks) + int((N % N_chunks) > i)
 
 
-def parse_name(run_name):
-    """
-    Parses the run name into number of cores, nodes, gpus, particles,
-    steps, and dt
+class Timer(object):
+    def __init__(self):
+        self.start_times = {}
+        self.completed_times = {}
 
-    Format:
-       AAA_B-C_D_E_F
-    
-       AAA - Run Type (gpu, mpi, etc)
-       B - Number of cores
-       C - Number of nodes
-       D - Number of particles
-       E - Number of time steps
-       F - Time Precision (1 / dt_Myr)
-    """
-    run_type, cores, parts, steps, time = run_name.split('_')
-    if len(cores.split('-')) == 2:
-        cores, nodes = cores.split('-')
-    else:
-        nodes = '1'
-    dt = float('{:.3f}'.format(1./float(time)))  # round to 3 sig figs
-    cores = int(cores)
-    nodes = int(nodes)
-    if 'gpu' not in run_name:
-        ngpu = 0
-    elif cores > nodes:
-        ngpu = 2 * nodes
-    else:
-        ngpu = 1 * nodes
-    parts = int(parts)
-    steps = int(steps)
-    return cores, nodes, ngpu, parts, steps, dt
+    def start(self, watch_name):
+        self.start_times[watch_name] = time()
+        if watch_name not in self.completed_times:
+            self.completed_times[watch_name] = []
+
+    def stop(self, watch_name):
+        try:
+            dt = time() - self.start_times.pop(watch_name)
+            self.completed_times[watch_name].append(dt)
+        except KeyError:
+            raise KeyError('No such timer started')
+
+    def iter_medians(self):
+        for k in sorted(self.completed_times.keys()):
+            yield k, np.median(self.completed_times[k])
+
+    def clear(self):
+        self.__init__()
 
 
 class RunResults:
@@ -259,8 +219,6 @@ class RunResults:
     def __init__(self, run_name):
         self.run_name = run_name
         path = '../results/' + run_name + '/'
-        # Load basic properties from run_name
-        self.Ncores, self.Nnodes, self.Ngpu, self.Nparts, self.Nsteps, self.dt = parse_name(run_name)
         # Load data from overivew
         with open(path + 'overview.txt', 'r') as f:
             lines = f.readlines()
@@ -268,13 +226,10 @@ class RunResults:
         self.Mass = float(lines[3])
         self.a = float(lines[4])
         self.theta = float(lines[5])
+        self.dt = float(lines[6])
         self.softening = float(lines[8])
         self.rand_seed = int(lines[9])
         # check properties are correct
-        assert(self.Ncores == int(lines[1]))
-        assert(self.Nparts == int(lines[2]))
-        assert(self.Nsteps == int(lines[7]))
-        assert(self.dt == float(lines[6]))
         
         steps = []
         # figure out what time steps were saved
@@ -326,45 +281,4 @@ class RunResults:
         ax.plot(self.time_elapsed, self.E, ls='-', color=color,
                 label=self.run_name)
         ax.legend(loc=0)
-        return ax
-    
-    def plot_speedups(self, other, ax=None, color=None, marker=None):
-        labels = ['Overall', 'Tree', 'Force', 'Integ.', 'Comm.']
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(10, 6))
-            self.colors = sns.color_palette('Set2', 8)[::-1]
-            self.markers = ['8', 'p', 'D', 'h', 's', '*', '^', 'o']
-            ax.set_xlabel('Code Portion')
-            ax.set_xticks(np.arange(5))
-            ax.set_xticklabels(labels)
-            ax.set_ylabel('Speed-Up (x)')
-            ax.set_yscale('log')
-            title = '{:d} Parts, {:d} Cores, {:d} Nodes, {:d} GPUs'.format(self.Nparts, self.Ncores, self.Nnodes, self.Ngpu)
-            ax.set_title('Baseline: {:s}'.format(title))
-            ax.axhline(y=1, ls=':')
-        if color is None:
-            try:
-                color = self.colors.pop()
-            except IndexError:
-                color = 'r'
-        if marker is None:
-            try:
-                marker = self.markers.pop()
-            except IndexError:
-                marker = 'o'
-        for i, k in enumerate(labels):
-            label = None
-            if i == 0:
-                label = ''
-                if other.Nparts != self.Nparts:
-                    label += '{:d} Parts, '.format(other.Nparts)
-                if other.Ncores != self.Ncores:
-                    label += '{:d} Cores, '.format(other.Ncores)
-                if other.Nnodes != self.Nnodes:
-                    label += '{:d} Nodes, '.format(other.Nnodes)
-                if other.Ngpu != self.Ngpu:
-                    label += '{:d} GPUs'.format(other.Ngpu)
-            speedup = self.med_times[k] / other.med_times[k]
-            ax.plot(i, speedup, ls='', marker=marker, color=color, label=label)
-        ax.legend(loc=0, frameon=True, fontsize='x-small')
         return ax
