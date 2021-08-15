@@ -1,4 +1,6 @@
 # NBody
+[![last-commit](https://img.shields.io/github/last-commit/zxqlxy/NBody)](https://github.com/zxqlxy/NBody/graphs/commit-activity)
+
 
 NBody simulator using the Barnes-Hut algorithm to achieve `NlogN` speedup
 over traditional `N^2` algorithm.
